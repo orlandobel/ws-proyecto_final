@@ -1,0 +1,11 @@
+{
+    "name": "ws/inevirtual",
+    "autoload": {
+        "psr-4": {
+            "Ws\\Inevirtual\\": "src/"
+        }
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.4"
+    }
+}
