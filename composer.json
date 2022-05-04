@@ -6,6 +6,8 @@
         }
     },
     "require": {
-        "vlucas/phpdotenv": "^5.4"
+        "vlucas/phpdotenv": "^5.4",
+        "aura/router": "^3.2",
+        "laminas/laminas-diactoros": "^2.9"
     }
 }
