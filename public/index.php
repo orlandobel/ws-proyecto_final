@@ -1,51 +1,31 @@
 <?php
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Aura\Router\RouterContainer;
 use Laminas\Diactoros\ServerRequestFactory;
-use Laminas\Diactoros\Response;
-
 
 error_reporting(-1);
 ini_set('display_errors', 'On');
 
-$routerConrainer = new RouterContainer();
+define('APP_PATH', dirname(__DIR__).'/app');
+define('DEBUG', true);
 
-$map = $routerConrainer->getMap();
-$map->get('home', '/', function() { return 'hello';});
+$response = require APP_PATH.'/config/routing/router.php';
 
-$matcher = $routerConrainer->getMatcher();
+echo $response;
+/*require_once APP_PATH.'config/routing/matcher.php';
+require_once dirname(__DIR__).'/routes/app.php';
 
-$request = ServerRequestFactory::fromGlobals(
+$reflection = new ReflectionClass($map);
+$prop = $reflection->getProperty('routes');
+$prop->setAccessible(true);
+
+var_dump( $prop->getValue($map));*/
+
+/*$request = ServerRequestFactory::fromGlobals(
     $_SERVER,
     $_GET,
     $_POST,
     $_COOKIE,
     $_FILES
-);
+);*/
 
-$route = $matcher->match($request);
-
-if(!$route) {
-    echo "route not found";
-    exit;
-}
-
-foreach($route->attributes as $key => $val) { 
-    $request = $request->withAttribute($key, $val);
-}
-
-$callable = $route->handler;
-
-$response = new Response();
-$message = $callable($request, $response);
-
-if(!is_string($message)){
-    foreach($message->getHeaders() as $name => $values) {
-        foreach($values as $value) {
-            header(sprintf('%s: %s', $name, $value), false);
-        }
-    }
-} else {
-    echo $message;
-}
