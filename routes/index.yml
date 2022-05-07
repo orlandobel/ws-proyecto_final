@@ -1,8 +1,7 @@
 home:
   path: /
-  defaults: {
+  defaults: 
     _controller: Foo::foo
-  }
 
 foo_examples:
   prefix: /example

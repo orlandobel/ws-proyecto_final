@@ -17,7 +17,7 @@ $context->fromRequest(Request::createFromGlobals());
 try {
     $router = new Router(
         $loader,
-        'routes.yml',
+        'index.yml',
         array('cache_dir' => APP_PATH.'/cache'),
         $context
     );
