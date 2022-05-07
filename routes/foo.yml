@@ -1,0 +1,18 @@
+example:
+  path: /
+  defaults: {
+    _controller: Foo::hey
+  }
+
+# Los parametros en ruta deben tener exactamente le mismo nombre
+# que los declarados en la funcion, de lo contrario arrojara una excepcion
+example2:
+  path: /{id}/{string}
+  controller: Foo::params
+  
+
+example3:
+  path: /{id}/
+  controller: Foo::params
+  requirements:
+    id: \d+

@@ -2,12 +2,19 @@
     "name": "ws/inevirtual",
     "autoload": {
         "psr-4": {
-            "Ws\\Inevirtual\\": "src/"
+            "Ws\\Inevirtual\\": "src/",
+            "App\\": "app/"
         }
     },
     "require": {
         "vlucas/phpdotenv": "^5.4",
-        "aura/router": "^3.2",
-        "laminas/laminas-diactoros": "^2.9"
+        "symfony/routing": "^6.0",
+        "symfony/http-foundation": "^6.0",
+        "symfony/config": "^6.0",
+        "symfony/framework-bundle": "^6.0",
+        "doctrine/annotations": "^1.13",
+        "doctrine/cache": "^2.1",
+        "mustache/mustache": "^2.14",
+        "symfony/yaml": "^6.0"
     }
 }

@@ -1,40 +1,56 @@
 <?php
+use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\Router;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+//use Symfony\Component\Routing\Generator\urlGenerator;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Routing\Loader\YamlFileLoader;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
-use Laminas\Diactoros\ServerRequestFactory;
-use Laminas\Diactoros\Response;
+$locator = new FileLocator(array(ROUTES_PATH));
+$loader = new YamlFileLoader($locator);
 
-require_once APP_PATH.'/config/routing/matcher.php';
-require_once APP_PATH.'/../routes/app.php';
+$context = new RequestContext();
+$context->fromRequest(Request::createFromGlobals());
 
-$request = ServerRequestFactory::fromGlobals(
-    $_SERVER,
-    $_GET,
-    $_POST,
-    $_COOKIE,
-    $_FILES
-);
+try {
+    $router = new Router(
+        $loader,
+        'routes.yml',
+        array('cache_dir' => APP_PATH.'/cache'),
+        $context
+    );
 
-$route = $matcher->match($request);
+    $routes = $router->getRouteCollection();
+    $attributes = $router->match($context->getPathInfo());
+    $parameters = get_parameters($attributes);
+    print_r('<pre>');
+    var_dump($attributes);
+    var_dump($parameters);
+    print_r('</pre>');
+    $classname = $attributes['_controller'];
 
-if(!$route) {
-    return "Route not Found";
+    list($classname, $method) = explode("::", $classname);
+    $class = "App\\Controllers\\$classname";
+
+    $controller = new $class();
+    //$response = $controller->$method();
+    print_r($controller->$method(...$parameters)."</br>");
+    
+    $response = 'Building';
+} catch (ResourceNotFoundException $e) {
+    $response = new Response('Not found!', Response::HTTP_NOT_FOUND);
+} catch(Throwable $throwable) {
+    $response = new Response("Internal Server Exception", Response::HTTP_INTERNAL_SERVER_ERROR);
 }
 
-foreach($route->attributes as $key => $val) {
-    $request = $request->withAttribute($key, $val);
+function get_parameters($attributes) {
+    $parameters = array_filter($attributes, function($attribute) {
+        return !str_starts_with($attribute, "_");
+    }, ARRAY_FILTER_USE_KEY);
+
+    return $parameters;
 }
 
-$callable = $route->handler;
-
-$response = new Response();
-$message = $callable($request, $response);
-
-if(!is_string($message)) {
-    foreach($message->getHeaders() as $name => $values) {
-        foreach($values as $value) {
-            header(sprintf('%s: %s', $name, $value), false);
-        }
-    }
-}
-
-return $message;
+//return $response;

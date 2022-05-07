@@ -1,0 +1,9 @@
+home:
+  path: /
+  defaults: {
+    _controller: Foo::foo
+  }
+
+foo_examples:
+  prefix: /example
+  resource: 'foo.yml'
