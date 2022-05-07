@@ -25,10 +25,12 @@ try {
     $routes = $router->getRouteCollection();
     $attributes = $router->match($context->getPathInfo());
     $parameters = get_parameters($attributes);
-    print_r('<pre>');
+    
+    /*print_r('<pre>');
     var_dump($attributes);
     var_dump($parameters);
-    print_r('</pre>');
+    print_r('</pre>');*/
+    
     $classname = $attributes['_controller'];
 
     list($classname, $method) = explode("::", $classname);

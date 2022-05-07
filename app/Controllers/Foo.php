@@ -5,18 +5,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class Foo {
     public function foo() {
-        echo 'hello';
-        return 'foo function';
+        return View('foo');
     }
 
-    public function hey() {
-        return 'hey function';
+    public function hey($id) {
+        return View('foo', ['id' => $id]);
     }
 
     public function params($id, $string=null) {
-        echo $id."</br>";
-        echo $string."</br>";
-        return 'params function';
+        $arguments = [
+            'id' => $id,
+            'string' => $string,
+        ];
+        return View('foo', $arguments);
     }
 
 }
