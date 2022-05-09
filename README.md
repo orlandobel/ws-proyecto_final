@@ -3,6 +3,7 @@ IneVirtual
 
 Proyecto final para la materia de seguridad web de la UPIIZ en el ciclo escolas 22-2.
 
+---------------
 Uso de composer
 ===============
 
@@ -11,7 +12,6 @@ En esta sección se muestran algunos de los comandos que podrian ser usados para
 Cada uno de los comandos de composer debe ejecutarse desde la raiz del pryecto.
 
 Actualización de paquetes
--------------------------
 -------------------------
 
 Cada que se descarguen nuevos cambios del repositorio es recomendable actualizar las dependencias del proyecto. Si en algun momento el sistema arroja un error que involucre la carpeta **/vendor/** actualizar los paquetes podría solicionar el problema.
@@ -22,7 +22,6 @@ composer update
 
 Intalación de dependencias
 --------------------------
---------------------------
 
 Es posible que a lo largo del proyecto se necesiten instalar nuevas dependencias que ayuden a su desarrollo. El siguiente comando actualiza el archivo de dependencias e instala los paquetes necesarios, puede instalar más de una dependencia al mismo tiempo
 
@@ -32,7 +31,6 @@ composer require <desarrollador>/<paquete> ...
 
 Desinstalacion de dependencias
 ------------------------------
-------------------------------
 
 Si por algun motivo, se identifica una dependencia si utilizar o se decide dejar de usar alguna es posible desistalarla. Esto puede hacerse removiendo la dependencia del archivo **packaje.json** y actualizando las dependencias o ejecutando el siguiente comando:
 
@@ -41,7 +39,6 @@ composer remove <desarrollador>/<paquete> ...
 ```
 
 Actualizar autoloads
---------------------
 --------------------
 
 Normalmente para usar los espacios de nombre y la syntaxys "*use*" se necesita importar ela rchivo necesario con el código fuente de la clase que se vaya a importar. Los autioloads permiten ahorrarse estas importaciones de archivos y pasar directametne al uso de la palabra reserbada "*use*", fasilitando la codificación.
@@ -54,19 +51,17 @@ composer dump-autoload
 
 Iniciar el servidor
 -------------------
--------------------
 
 Si bien es posible visualizar el avance del desarrollo desde un serviddor de apache, es necesario iniciar el proyecto desde una consola de comandos para el funcionamiento de las rutas, de otro modo, todas las rutas retornarán un error 404. Para iniciar el servidor php ejecutar:
 
 ```bash
 php -S <host_ip>:<port> -t public/
 ```
-
+------------------------
 Estandares de desarrollo
 ========================
 
 Controladores
--------------
 -------------
 
 Dentro del patrón de diseño Modelo Vista Controlador (mvc), el controlador se encarga de hacer todas las tareas de proceso de datos. Cada funcionalidad debe de ser procesada por un controlador y todos los controladores deberán mantenerse en el mismo direectorio para su localización.
@@ -88,7 +83,6 @@ class Foo extends Controller {
 ```
 
 Decalración de funciones en los controladores
----------------------------------------------
 ---------------------------------------------
 
 Las funciones de los controladores serán declaradas com cualquier otra fucnión de php y llevarán como párametro comun un objeto de tipo Request llamado "*request*", de lo contrario la fucnión no se ejecutará.
@@ -113,7 +107,6 @@ class Foo extends Controller {
 ```
 
 Carga de vistas desde el controlador
-------------------------------------
 ------------------------------------
 
 Para acceder a una vista dentro del sistema, esta tiene que ser retornada desde el controlador, para esto, el controlador hará uso de la función ***render*** la cuál está ya definida en la clase **Controller**.
@@ -183,12 +176,31 @@ example_1:
 // archivo /app/Controllers/Foo.php
 
 //... declaración de clase y namespace ...
-    public function example1($count) {
+    public function example1(Request $request, $count) {
         // ...
     }
 ```
 
+Tamién es importante definir el método de acceso de las rutas, pues de esta manera evitaremos que se acceda a una funcion de edición de información (por ejemplo) desde una solicitud GET, la cuál es poco segura. El enrutador funcion sin la definición de los métodos de acceso pero al declararlos devolvera una excepción en caso de que se intente acceder por un metodo no autorizado por la ruta.
+```yml
+# archvo /routes/index.yml
+home:
+    path: /
+    defaults:
+        _controller: Foo::index
+    methods: GET|HEAD
+
+foo_routes:
+    prefix: /foo
+    resource: foo.yml
+    
+# archivo /routes/foo.yml
+example_1:
+    path: /example/{count}
+    defaults:
+        _controller: Foo::example1
+    methods: POST
+```
 
 Vistas
-------
 ------
