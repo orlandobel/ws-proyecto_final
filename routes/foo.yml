@@ -1,14 +1,15 @@
 example:
   path: /
-  defaults: {
+  defaults: 
     _controller: Foo::hey
-  }
+  methods: GET|HEAD
 
 example2:
   path: /{id}
-  controller: Foo::params
+  controller: Foo::hey
   requirements:
     id: \d+
+  methods: POST
 
 # Los parametros en ruta deben tener exactamente le mismo nombre
 # que los declarados en la funcion, de lo contrario arrojara una excepcion

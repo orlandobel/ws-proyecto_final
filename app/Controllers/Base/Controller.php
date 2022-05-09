@@ -10,11 +10,7 @@ use Exception;
 class Controller {
     private $twig;
 
-    public function __construct() {
-        $this->initTwig();
-    }
-
-    private function initTwig() {
+    public function initTwig() {
         $options = [
             'cache' => APP_PATH.'/cache/twig',
             'auto_reload' => true,
@@ -27,9 +23,7 @@ class Controller {
     public function render(string $view, $data = []) {
         try {
             $load = $this->twig->render("$view.html.twig", $data);
-            echo $load;
-            exit();
-            //return new Response($load, Response::HTTP_OK);
+            return new Response($load, Response::HTTP_OK);
         } catch(Exception $e) {
             echo $e->getMessage();
         }

@@ -9,11 +9,7 @@ require_once CONFIG_PATH.'/global_functions.php';
 require_once CONFIG_PATH.'/router.php';
 
 if($response instanceof Symfony\Component\HttpFoundation\Response) {
-//    print_objects($response);
-    if($response->getStatusCode() === 200) {
-        print_objects($response->getContent());
-        //print_objects($response);
-    }
+    echo $response->getContent();
 } else {
     echo $response;
 }

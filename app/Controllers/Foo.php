@@ -1,31 +1,30 @@
 <?php
 namespace App\Controllers;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Controllers\Base\Controller;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+
 
 class Foo extends Controller {
 
-    public function __construct() {
-        parent::__construct();
-    }
-    public function foo() {
-        return $this->render('foo');;
-        
-        //return View('foo');
+    public function foo(Request $request) {
+        return $this->render('foo');
     }
 
-    public function hey($id) {
-        return View('foo', ['id' => $id]);
+    public function hey(Request $request, $id) {
+        $data = $request->request->all();
+        dd($request);
+        return $this->render('foo');
     }
 
-    public function params($id, $string=null) {
-        $arguments = [
+    public function params(Request $request, $id, $string) {
+
+        $data = [
             'id' => $id,
             'string' => $string,
         ];
-        return View('foo', $arguments);
+
+        return $this->render('templating', $data);
     }
 
 }

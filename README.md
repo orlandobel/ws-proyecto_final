@@ -91,7 +91,7 @@ Decalración de funciones en los controladores
 ---------------------------------------------
 ---------------------------------------------
 
-Las funciones de los controladores serán declaradas com cualquier otra fucnión de php.
+Las funciones de los controladores serán declaradas com cualquier otra fucnión de php y llevarán como párametro comun un objeto de tipo Request llamado "*request*", de lo contrario la fucnión no se ejecutará.
 
 ```php
 <?php
@@ -99,13 +99,14 @@ Las funciones de los controladores serán declaradas com cualquier otra fucnión
 namespace App\Controlleers;
 
 use App\Controllers\Base\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class Foo extends Controller {
-    public function index() {
+    public function index(Request $request) {
         // funcionalidad aqui
     }
 
-    public function foo($param) {
+    public function foo(Request $request, $param) {
         // funcionalidad aqui
     }
 }
@@ -128,12 +129,12 @@ Esta función recibe dos parámetros:
 
 // ... definiciones de la clase ...
 
-    public function index() {
+    public function index(Request $request) {
         // retorna la vista /src/views/login.html.twig
         return $this->render('login');
     }
 
-    public function foo($param) {
+    public function foo(Request $request, $param) {
         // ... procesamiento de datos
         $array = [
             'value1' => $value1,

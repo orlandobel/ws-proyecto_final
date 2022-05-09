@@ -9,7 +9,7 @@ return [
     false, // $matchHost
     [ // $staticRoutes
         '/' => [[['_route' => 'home', '_controller' => 'Foo::foo'], null, null, null, false, false, null]],
-        '/example' => [[['_route' => 'example', '_controller' => 'Foo::hey'], null, null, null, true, false, null]],
+        '/example' => [[['_route' => 'example', '_controller' => 'Foo::hey'], null, ['GET|HEAD' => 0], null, true, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'
@@ -20,7 +20,7 @@ return [
             .')/?$}sD',
     ],
     [ // $dynamicRoutes
-        24 => [[['_route' => 'example2', '_controller' => 'Foo::params'], ['id'], null, null, false, true, null]],
+        24 => [[['_route' => 'example2', '_controller' => 'Foo::hey'], ['id'], ['POST' => 0], null, false, true, null]],
         48 => [
             [['_route' => 'example3', '_controller' => 'Foo::params'], ['id', 'string'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
