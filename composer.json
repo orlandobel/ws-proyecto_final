@@ -14,7 +14,8 @@
         "symfony/framework-bundle": "^6.0",
         "doctrine/annotations": "^1.13",
         "doctrine/cache": "^2.1",
-        "mustache/mustache": "^2.14",
-        "symfony/yaml": "^6.0"
+        "symfony/yaml": "^6.0",
+        "twig/twig": "^3.3",
+        "symfony/asset": "^6.0"
     }
 }

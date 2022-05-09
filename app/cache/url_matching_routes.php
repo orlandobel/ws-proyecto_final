@@ -14,15 +14,15 @@ return [
     [ // $regexpList
         0 => '{^(?'
                 .'|/example/(?'
-                    .'|([^/]++)/([^/]++)(*:36)'
-                    .'|(\\d+)(*:48)'
+                    .'|(\\d+)(*:24)'
+                    .'|([^/]++)/([^/]++)(*:48)'
                 .')'
             .')/?$}sD',
     ],
     [ // $dynamicRoutes
-        36 => [[['_route' => 'example2', '_controller' => 'Foo::params'], ['id', 'string'], null, null, false, true, null]],
+        24 => [[['_route' => 'example2', '_controller' => 'Foo::params'], ['id'], null, null, false, true, null]],
         48 => [
-            [['_route' => 'example3', '_controller' => 'Foo::params'], ['id'], null, null, true, true, null],
+            [['_route' => 'example3', '_controller' => 'Foo::params'], ['id', 'string'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],
     ],

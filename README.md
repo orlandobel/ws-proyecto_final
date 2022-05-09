@@ -40,6 +40,18 @@ Si por algun motivo, se identifica una dependencia si utilizar o se decide dejar
 composer remove <desarrollador>/<paquete> ...
 ```
 
+Actualizar autoloads
+--------------------
+--------------------
+
+Normalmente para usar los espacios de nombre y la syntaxys "*use*" se necesita importar ela rchivo necesario con el código fuente de la clase que se vaya a importar. Los autioloads permiten ahorrarse estas importaciones de archivos y pasar directametne al uso de la palabra reserbada "*use*", fasilitando la codificación.
+
+El proyecto ya tiene implementados los autoloads necesarios gracias a la gestión de composer, pero es posible que estos fallen al inicio. Si el sistema arroja un error de indefinición de clases o las rutas de ejemplo no funcionan ejecutar el siguientee comando regenerará los autoloads, solucionando asó estos problemas.
+
+```bash
+composer dump-autoload
+```
+
 Iniciar el servidor
 -------------------
 -------------------
@@ -61,14 +73,16 @@ Dentro del patrón de diseño Modelo Vista Controlador (mvc), el controlador se 
 
 El enrutador esta configurado para buscar todos los controladores dentro de la carpeta **app/Controllers**, además cada archivo de controlador y su clase deben llevar el mismo nombre y comenzar con una mayúscula, de lo contrario el enrutador no será capaz de encontrarlo.
 
-Por último, todos los controladores deben de tener el mismo espacio de nombre (namespace) para que el enrutador pueda encontrarlos.
+Por último, todos los controladores deben de tener el mismo espacio de nombre (namespace) para que el enrutador pueda encontrarlos así como extender de la clase **App\Controllers\Base\Controller**, la cuál tiene definida algunas funciones útiles para todos los controladores.
 
 ```php
 <?php
 // archivo app/Controllers/Foo.php
 namespace App\Controllers;
 
-class Foo {
+use App\Controllers\Base\Controller;
+
+class Foo extends Controller {
     // funciones del controlador aqui
 }
 ```
@@ -84,7 +98,9 @@ Las funciones de los controladores serán declaradas com cualquier otra fucnión
 // archivo app/Controllers/Foo.php
 namespace App\Controlleers;
 
-class Foo {
+use App\Controllers\Base\Controller;
+
+class Foo extends Controller {
     public function index() {
         // funcionalidad aqui
     }
@@ -99,12 +115,12 @@ Carga de vistas desde el controlador
 ------------------------------------
 ------------------------------------
 
-Para acceder a una vista dentro del sistema, esta tiene que ser retornada desde el controlador, para esto, el controlador hará uso de la función ***View*** la cuál está diseñada para realizar este trabajo.
+Para acceder a una vista dentro del sistema, esta tiene que ser retornada desde el controlador, para esto, el controlador hará uso de la función ***render*** la cuál está ya definida en la clase **Controller**.
  
 Esta función recibe dos parámetros:
     
 1. view: el nombre de la vista en formato string y sin la extención de archivo. Si el archivo está en un subdirectorio, este se añade en el parámetro
-2. arguments: arreglo asociativo con el formato **'clave' => valor** que contiene los datos u objetos que se usarán en la vista retornada. Este parametro puede omitirse si la vista no va a mostrar ningún dato del controlador.
+2. data: arreglo asociativo con el formato **'clave' => valor** que contiene los datos u objetos que se usarán en la vista retornada. Este parametro puede omitirse si la vista no va a mostrar ningún dato del controlador.
 
 ```php
 <?php
@@ -113,8 +129,8 @@ Esta función recibe dos parámetros:
 // ... definiciones de la clase ...
 
     public function index() {
-        // retorna la vista /src/views/login.html
-        return View('login');
+        // retorna la vista /src/views/login.html.twig
+        return $this->render('login');
     }
 
     public function foo($param) {
@@ -124,8 +140,8 @@ Esta función recibe dos parámetros:
             'value2' => $value2,
         ];
 
-        // retorna la vista /src/views/foo/home.html
-        return View('foo/home', $array);
+        // retorna la vista /src/views/foo/home.html.twig
+        return $this->render('foo/home', $array);
     }
 ```
 

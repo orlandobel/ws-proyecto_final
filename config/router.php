@@ -26,21 +26,20 @@ try {
     $attributes = $router->match($context->getPathInfo());
     $parameters = get_parameters($attributes);
     
-    /*print_r('<pre>');
-    var_dump($attributes);
-    var_dump($parameters);
-    print_r('</pre>');*/
-    
     $classname = $attributes['_controller'];
-
+    
     list($classname, $method) = explode("::", $classname);
     $class = "App\\Controllers\\$classname";
-
-    $controller = new $class();
-    //$response = $controller->$method();
-    print_r($controller->$method(...$parameters)."</br>");
     
-    $response = 'Building';
+    /*print_r('<pre>');
+    var_dump($class);
+    print_r('</pre>');*/
+    
+    $controller = new $class();
+    $response = $controller->$method();
+    //print_r($controller->$method(...$parameters)."</br>");
+    
+    //$response = 'Building';
 } catch (ResourceNotFoundException $e) {
     $response = new Response('Not found!', Response::HTTP_NOT_FOUND);
 } catch(Throwable $throwable) {

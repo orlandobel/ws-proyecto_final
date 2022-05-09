@@ -1,11 +1,19 @@
 <?php
 namespace App\Controllers;
 
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Controllers\Base\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
-class Foo {
+class Foo extends Controller {
+
+    public function __construct() {
+        parent::__construct();
+    }
     public function foo() {
-        return View('foo');
+        return $this->render('foo');;
+        
+        //return View('foo');
     }
 
     public function hey($id) {
