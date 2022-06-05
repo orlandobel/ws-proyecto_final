@@ -8,9 +8,22 @@
     <link rel="stylesheet" type="text/css" href="assets/css/foo.css ">
 </head>
 <body>
+<div class="topnav">
+    {% block navigation %}
+        <a href="#" class="active"></a>
+        <a href="#">Link</a>
+        <a href="#">Link</a>
+        {% endblock navigation %}
+</div>
+    <h1>Prueba</h1>
+    {#
+menu_main is an associated array containing active key and menu key.
+menu is an associated array of containing name, components_id, and whether it should open a new window
+#}
     <form action="/example/1" method="post">
         <input type="text" name="nombre" id="nombre" value="ejeemplo">
         <input type="submit" value="enviar">
     </form>
 </body>
+
 </html>
