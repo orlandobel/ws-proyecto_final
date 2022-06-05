@@ -1,13 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Templating parametros con twig</title>
-</head>
-<body>
-    el id es {{ id }} <br>
-    el string es {{ string }}
-</body>
-</html>
+{% extends "foo.html.twig" %}
+
+{% block body %}
+<h1>Prueba</h1>
+    {#
+menu_main is an associated array containing active key and menu key.
+menu is an associated array of containing name, components_id, and whether it should open a new window
+#}
+    <form action="/example/1" method="post">
+        <input type="text" name="nombre" id="nombre" value="ejeemplo">
+        <input type="submit" value="enviar">
+    </form>
+{% endblock body %}
